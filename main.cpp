@@ -50,11 +50,11 @@ int main()
     // if (_test_bulk_loading_multiple_trees() == -1)
     //     printf("[ERROR] Bulk loading multiple tree failed!\n");
 
-    if (_test_remove_from_last_tree() == -1)
-        printf("[ERROR] Tree remove test failed.\n");
+    // if (_test_remove_from_last_tree() == -1)
+    //     printf("[ERROR] Tree remove test failed.\n");
 
     // _performance_test_inserts();
-    // _performance_test_deletes();
+    _performance_test_deletes();
 }
 
 // Things to solve:

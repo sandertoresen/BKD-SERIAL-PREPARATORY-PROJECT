@@ -686,20 +686,21 @@ int _performance_test_deletes()
     // TODO under variable don't handle 20 * 16k values
     int cords[DIMENSIONS] = {};
     int remove_cords[100][DIMENSIONS];
-
     for (int i = 0; i < size; i++)
     {
 
         int data = i;
         for (int j = 0; j < DIMENSIONS; j++)
         {
-            cords[j] = rand();
             if (i < 100)
+            {
+                cords[j] = -(rand() % 1000);
                 remove_cords[i][j] = cords[j];
+            }
+            else
+                cords[j] = rand() % 1000;
         }
-
         int added = tree->insert(data, cords);
-
         if (added == -1)
         { // return -1 if insert failed
             printf("Inserting data failed\n");
@@ -712,7 +713,7 @@ int _performance_test_deletes()
         printf("OBS.. Wrong size!\n");
     }
 
-    long int *timings = new long int[size];
+    long int *timings = new long int[100];
 
     // open file
     std::ofstream MyFile("timings_deletes.txt");
@@ -730,7 +731,7 @@ int _performance_test_deletes()
             exit(1);
         }
         if (i + 1 != 100)
-            MyFile << timings[i] * 1000000000 << std::endl;
+            MyFile << timings[i] << std::endl;
         else
             MyFile << timings[i];
     }
