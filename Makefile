@@ -9,12 +9,12 @@ HEADERS=includes/BKD_Tree.h includes/Config.h includes/tests.h includes/KDB_Tree
 
 
 
-all: program
+all: program32s
 
 # indexer: $(INDEXER_SRC) $(HEADERS) Makefile
 # 	gcc -Wall -o $@ -D_GNU_SOURCE -D_REENTRANT $(INDEXER_SRC) -g -lpthread -lm
 
-program: $(PROGRAM_SRC) $(HEADERS) Makefile
+program32s: $(PROGRAM_SRC) $(HEADERS) Makefile
 	g++ $(PROGRAM_SRC) -g -o $@ 
 
 # assert_index: $(ASSERT_SRC) $(HEADERS) Makefile

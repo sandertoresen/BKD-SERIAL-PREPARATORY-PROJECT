@@ -1,58 +1,54 @@
 
-file_name = "timings_inserts"
-file_extension = ".txt"
 
-all_arrays = []
-for num in range(1, 11):
-    with open(file_name + f"{num}" + file_extension) as f:
-        array = []
-        for i, line in enumerate(f):  # read rest of lines
-            array.append(int(line))
-            # if i == 2:
-            #     break
+# name_count = f'{nums[c]}edge_timings_deletes' + str(i) + '.txt'
+
+# file_name = "256timings_deletes"
+# file_extension = ".txt"
+
+# nums = [4, 8, 16, 32, 64, 128, 256]
+# for c, tree in enumerate(nums):
+#     avg_val = 0
+#     for run in range(1, 11):
+#         file_name = f'{nums[c]}edge_timings_deletes' + str(run) + '.txt'
+#         with open(file_name) as f:
+#             for i, line in enumerate(f):  # read rest of lines
+#                 avg_val += int(line)
+#             f.close()
+#     avg_val = avg_val / (10)
+#     print(f"|{tree}| Avg {avg_val}")
+
+navn = "4timings_deletesTest.txt"
+navn = "64edge_timings_deletes4.txt"
+avg_val = 0
+vals = 1
+with open(navn) as f:
+    for i, line in enumerate(f):  # read rest of lines
+        avg_val += int(line)
+        vals += 1
     f.close()
-    all_arrays.append(array)
-# for a in all_arrays:
-#     print(a)
-avg_arr = []
-
-for i in range(len(all_arrays[0])):
-    avg = 0
-    for arr in all_arrays:
-        avg += arr[i]
-    avg_arr.append(avg/10)
+avg_val /= vals
+print(avg_val)
 
 
-# biggest = []
-# for i in indexes:
-#     biggest.append((i, avg_arr[i]))
-# for b in biggest:
-#     print(b)
-
-# print(avg_arr)
-# print("sorted:")
-avg_unsorted = avg_arr.copy()
-avg_arr.sort()
-
-for i in avg_arr[-30:]:
-    # find index
-    for c, j in enumerate(avg_unsorted):
-        if(j == i):
-            print(f"Index:{c} time: {j} Tree{c/32768}")
-# Get 1% 10%, 20%, 50%, 80%, 90%, 99% 99.9% 99.99%
-# percentages = [1, 10, 20, 50, 80, 90, 99,
-#                99.9, 99.99, 99.999, 99.9999, 99.99999]
-# worst_percent_idxs = []
-# nodes = len(avg_arr)
-
-# for i in percentages:
-#     worst_percent_idxs.append([int(nodes/100 * i), i])
-#     # print(f"add: {int(nodes/100 * i)}--{i}")
+# nums = [4, 8, 16, 32, 64, 128, 256]
+# for c, tree in enumerate(nums):
+#     avg_val = 0
+#     for run in range(1, 11):
+#         file_name = f'{nums[c]}edge_timings_deletes' + str(run) + '.txt'
+#         with open(file_name) as f:
+#             for i, line in enumerate(f):  # read rest of lines
+#                 avg_val += int(line)
+#             f.close()
+#     avg_val = avg_val / (10*100)
+#     print(f"|{tree}| Avg {avg_val}")
 
 
-# for i, x in worst_percent_idxs:
-#     # find correct index
-#     for c, u in enumerate(avg_unsorted):
-#         if avg_arr[i] == u:
-#             print(f"Index:{c} | {x}% = {avg_arr[i]}ns")
-#             break
+# for num in range(1, 11):
+#     with open(file_name + f"{num}" + file_extension) as f:
+#         for i, line in enumerate(f):  # read rest of lines
+#             avg_val += int(line)
+#     f.close()
+
+# avg_val = avg_val / (10*100)
+
+# print(f"|256| Avg {avg_val}")

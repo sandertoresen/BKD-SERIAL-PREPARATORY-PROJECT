@@ -439,7 +439,7 @@ int _test_bulk_loading_single_tree()
 {
     BKD_TREE *tree = new BKD_TREE();
 
-    int size = ARRAY_SIZE * 2 + 1;
+    int const size = ARRAY_SIZE * 2 + 1;
     int cords[size][DIMENSIONS] = {};
     for (int i = 0; i < size; i++)
     {
@@ -610,15 +610,13 @@ int _performance_test_inserts()
 {
     BKD_TREE *tree = new BKD_TREE();
 
-    int size = ARRAY_SIZE * 40 + 1;
+    int size = ARRAY_SIZE * 256 + 1;
+
     // TODO under variable don't handle 20 * 16k values
     int cords[DIMENSIONS] = {};
     bool overflow;
 
     long int *timings = new long int[size];
-
-    // open file
-    std::ofstream MyFile("timings_inserts.txt");
 
     for (int i = 0; i < size; i++)
     {
@@ -633,18 +631,11 @@ int _performance_test_inserts()
         int added = tree->insert(data, cords);
         auto stop = std::chrono::high_resolution_clock::now();
 
-        overflow = false;
         auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
         if (duration.count() < 0)
         {
             printf("Integer overflow!\n");
-            overflow = true;
-            duration = std::chrono::duration_cast<std::chrono::seconds>(stop - start);
-            if (duration.count() < 0)
-            {
-                printf("overflow again\n");
-                exit(1);
-            }
+            exit(1);
         }
         if (added == -1)
         { // return -1 if insert failed
@@ -658,10 +649,6 @@ int _performance_test_inserts()
             printf("timings overflow!\n");
             exit(1);
         }
-        if (overflow)
-            MyFile << timings[i] * 1000000000 << std::endl;
-        else
-            MyFile << timings[i] << std::endl;
     }
     if (tree->get_size() != size)
     {
@@ -671,6 +658,15 @@ int _performance_test_inserts()
     // Write to the file
 
     // Got all timings write them to file
+    // open file
+    std::ofstream MyFile("256_timings_inserts.txt");
+    for (int i = 0; i < size; i++)
+    {
+        if (i + 1 != size)
+            MyFile << timings[i] << std::endl;
+        else
+            MyFile << timings[i];
+    }
 
     MyFile.close();
     printf("performance test insert succeded!\n");
@@ -682,7 +678,7 @@ int _performance_test_deletes()
 {
     BKD_TREE *tree = new BKD_TREE();
 
-    int size = ARRAY_SIZE * 40 + 1;
+    int size = ARRAY_SIZE * 32 + 1;
     // TODO under variable don't handle 20 * 16k values
     int cords[DIMENSIONS] = {};
     int remove_cords[100][DIMENSIONS];
@@ -694,12 +690,25 @@ int _performance_test_deletes()
         {
             if (i < 100)
             {
-                cords[j] = -(rand() % 1000);
+                cords[j] = rand() % 10000;
                 remove_cords[i][j] = cords[j];
             }
             else
-                cords[j] = rand() % 1000;
+            {
+                cords[j] = rand() % 10000;
+            }
         }
+
+        for (int c = 0; c < 100; c++)
+        {
+            if (cords[0] == remove_cords[c][0] && cords[1] == remove_cords[c][1])
+            { // reroll
+                cords[0] = rand() % 10000;
+                cords[1] = rand() % 10000;
+                c = 0;
+            }
+        }
+
         int added = tree->insert(data, cords);
         if (added == -1)
         { // return -1 if insert failed
@@ -716,7 +725,7 @@ int _performance_test_deletes()
     long int *timings = new long int[100];
 
     // open file
-    std::ofstream MyFile("timings_deletes.txt");
+    std::ofstream MyFile("32delete_single.txt");
     // remove test start
     for (int i = 0; i < 100; i++)
     {
